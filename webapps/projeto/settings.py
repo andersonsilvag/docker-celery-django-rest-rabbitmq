@@ -34,6 +34,7 @@ DEBUG = is_true(os.getenv('DJANGO_DEBUG', 'true'))
 ALLOWED_HOSTS = split_with_comma(os.getenv('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost'))
 
 INTERNAL_IPS = ['127.0.0.1']
+DEBUG_TOOLBAR_CONFIG = {'INTERCEPT_REDIRECTS': False, }
 
 if DEBUG:
     # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#configure-internal-ips
@@ -155,14 +156,17 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'django_celery_beat',
+    'debug_toolbar',
     'apps.emprestimo',
     'apps.api',
 ]
 
 REST_FRAMEWORK = {
-    "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
+    #"DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
+        #'rest_framework.authentication.SessionAuthentication',
+        #'rest_framework.authentication.TokenAuthentication',
     ),
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
@@ -171,6 +175,7 @@ REST_FRAMEWORK = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     "django.middleware.cache.UpdateCacheMiddleware",
     'django.middleware.common.CommonMiddleware',

@@ -14,3 +14,9 @@ urlpatterns = [
 # Serve arquivos de mídia a partir do MEDIA_ROOT. Isso só funcionará quando DEBUG=True estiver configurado.
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # Adiciona as URLs para servir arquivos de mídia quando DEBUG=True, utilizando as configurações do Django
+
+if settings.DEBUG:  # Use local only
+    import debug_toolbar
+    urlpatterns += [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ]
