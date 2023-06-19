@@ -45,7 +45,9 @@ No console do linux execute:
     
     sudo apt-get update && apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin make git -y
     
-### O arquivo Makefile contém comandos que podem ser utilizados para executar determinadas ações no docker/docker-compose, caso queira usa-lo, instalar com o comando:
+A análise de propostas automática é realizada pelo Celery, utilizando o Celery Beat para agendamento. A configuração de agendamento está definida no arquivo settings.py, no parâmetro "CELERY_BEAT_SCHEDULE", para que a análise seja executada a cada minuto. Fique a vontade para alterar esse tempo.
+
+### O arquivo Makefile contém comandos que podem ser utilizados para executar determinadas ações no docker:
 
     Use make no console, veja as opções disponiveis:
 
@@ -56,12 +58,14 @@ No console do linux execute:
     `make up`
 
     Constrói a imagem e inicia todos os serviços localmente usando o docker-compose
+    Agora você pode acessar http://127.0.0.1:9001/admin/ em seu navegador. O superusuário com login e senha admin/admin já está criado. Vá para o painel de administração do Django acessando http://127.0.0.1:9001/admin/.
 
     `make down`
 
     Para e remove todos os contêineres e imagens
 
-### O projeto também possui comandos personalizados de gerenciamento do Django, permitindo a criação de propostas aleatórias ou a análise manual de propostas em situações de contingência:
+
+### O projeto também possui comandos personalizados de gerenciamento do Django, permitindo a criação de propostas aleatórias ou a análise manual de propostas em situações de contingência, saiba mais em (https://docs.djangoproject.com/en/4.2/howto/custom-management-commands/):
 
 Para cadastrar propostas aleatórias, execute o comando "criar_propostas" no gerenciador de tarefas e especifique a quantidade desejada da seguinte maneira, lembre-se de que você precisa estar na pasta webapps:
     
@@ -70,5 +74,3 @@ Para cadastrar propostas aleatórias, execute o comando "criar_propostas" no ger
 Para avaliar propostas manualmente:
     
     python manage.py analisar_proposta
-
-### A análise de propostas automática é realizada pelo Celery, utilizando o Celery Beat para agendamento. A configuração de agendamento está definida no arquivo settings.py, no parâmetro "CELERY_BEAT_SCHEDULE", para que a análise seja executada a cada minuto. Fique a vontade para alterar esse tempo.
