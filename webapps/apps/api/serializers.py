@@ -13,13 +13,16 @@ class PropostaSerializer(serializers.ModelSerializer):
 
     @cached_property
     def all_obj(self):
+        # Recupera todos os objetos Proposta do banco de dados e seleciona apenas o campo "id"
         queryset = Proposta.objects.all().values("id")
+        # Cria uma lista contendo todos os valores de "id" dos objetos
         obj = [obj['id'] for obj in queryset]
         return obj
 
     def validate(self, attrs):
         _obj = attrs.get("obj")
         if _obj not in self.all_obj:
+            # Lança uma exceção de validação se o valor de "obj" não estiver presente na lista de todos os objetos
             raise serializers.ValidationError(
                 f"Invalid obj {_obj} - object does not exist.")
         return super().validate(attrs)

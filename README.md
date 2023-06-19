@@ -57,9 +57,7 @@ A análise de propostas automática é realizada pelo Celery, utilizando o Celer
 
     `make up`
 
-    Constrói a imagem e inicia todos os serviços localmente usando o docker-compose
-    Agora você pode acessar http://127.0.0.1:9001/ em seu navegador, para cadastrar propostas. Caso queria acompanhar as propostas, vá para o painel de administração do Django acessando http://127.0.0.1:9001/admin/. O superusuário com login e senha admin/admin já está criado.
-
+    Construa a imagem e inicie todos os serviços localmente usando o docker-compose. Agora você pode acessar http://127.0.0.1:9001/ em seu navegador para cadastrar propostas. Lembre-se de que o Celery deve estar ativo, inclusive para o cadastro de propostas. Se desejar acompanhar as propostas, vá para o painel de administração do Django, acessando http://127.0.0.1:9001/admin/. O superusuário com o login e senha 'admin/admin' já está criado.
     `make down`
 
     Para e remove todos os contêineres e imagens
