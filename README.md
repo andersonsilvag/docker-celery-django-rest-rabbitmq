@@ -65,7 +65,7 @@ A análise de propostas automática é realizada pelo Celery, utilizando o Celer
     Para e remove todos os contêineres e imagens
 
 
-### O projeto também possui comandos personalizados de gerenciamento do Django, permitindo a criação de propostas aleatórias ou a análise manual de propostas em situações de contingência, saiba mais em (https://docs.djangoproject.com/en/4.2/howto/custom-management-commands/):
+O projeto também possui comandos personalizados de gerenciamento do Django, permitindo a criação de propostas aleatórias ou a análise manual de propostas em situações de contingência, saiba mais em (https://docs.djangoproject.com/en/4.2/howto/custom-management-commands/):
 
 Para cadastrar propostas aleatórias, execute o comando "criar_propostas" no gerenciador de tarefas e especifique a quantidade desejada da seguinte maneira, lembre-se de que você precisa estar na pasta webapps:
     
