@@ -1,0 +1,82 @@
+version: "3.9"
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:15
+    networks:
+      - webapps
+    env_file: .env
+    restart: unless-stopped
+    volumes:
+      - "postgres-data:/var/lib/postgresql/data/"
+      # Monta um volume chamado "postgres-data" para persistir os dados do PostgreSQL.
+
+  redis:
+    container_name: redis
+    image: redis:7.2-rc2
+    networks:
+      - webapps
+    restart: unless-stopped
+    command: sh -c "redis-server --requirepass mypassword"
+    # Configura um container chamado "redis" usando a imagem Redis Alpine 3.18.
+    # Executa um comando personalizado para iniciar o servidor Redis com uma senha definida como "mypassword".
+
+  django:
+    container_name: emprestimo
+    image: django-docker:latest
+    networks:
+      - webapps
+    env_file: .env
+    restart: unless-stopped
+    volumes:
+      - "media-data:/var/www/media"
+      - "./webapps:/var/www/webapps"
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - 9001:9001
+    # Configura um container chamado "emprestimo" usando a imagem personalizada "django-docker:latest".
+    # Define três réplicas do serviço.
+    # Utiliza um arquivo .env para definir variáveis de ambiente.
+    # Reinicia o container a menos que seja parado manualmente.
+    # Monta volumes para persistir os dados de "media" e "webapps".
+    # Define dependências nos serviços "postgres" e "redis".
+    # Expõe a porta 9001 no host e mapeia-a para a porta 9001 do container.
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.12.0
+    networks:
+      - webapps
+    restart: unless-stopped
+    # Configura um container chamado "rabbitmq" usando a imagem RabbitMQ 3.9.29.
+    # Reinicia o container a menos que seja parado manualmente.
+
+  worker:
+    image: django-docker:latest
+    networks:
+      - webapps
+    env_file: .env
+    environment:
+      - "IS_WORKER=true"
+    restart: unless-stopped
+    volumes:
+      - "./webapps:/var/www/webapps"
+    depends_on:
+      - django
+    # Configura um container chamado "worker" usando a imagem personalizada "django-docker:latest".
+    # Define três réplicas do serviço.
+    # Utiliza um arquivo .env para definir variáveis de ambiente.
+    # Define a variável de ambiente "IS_WORKER" como "true".
+    # Reinicia o container a menos que seja parado manualmente.
+    # Monta um volume para persistir os dados de "webapps".
+    # Define a dependência no serviço "django".
+
+networks:
+  webapps:
+
+volumes:
+  postgres-data:
+  media-data:
+  # Define dois volumes vazios chamados "postgres-data" e "media-data" para uso pelos containers.
